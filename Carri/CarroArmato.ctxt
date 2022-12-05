@@ -1,10 +1,7 @@
 #BlueJ class context
 comment0.target=CarroArmato
-comment0.text=\r\n\ Aggiungi\ qui\ una\ descrizione\ della\ classe\ CarroArmato\r\n\ \r\n\ @author\ (il\ tuo\ nome)\ \r\n\ @version\ (un\ numero\ di\ versione\ o\ una\ data)\r\n
-comment1.params=
-comment1.target=CarroArmato()
-comment1.text=\r\n\ Costruttore\ degli\ oggetti\ di\ classe\ \ CarroArmato\r\n
-comment2.params=y
-comment2.target=int\ sampleMethod(int)
-comment2.text=\r\n\ Un\ esempio\ di\ metodo\ -\ aggiungi\ i\ tuoi\ commenti\r\n\ \r\n\ @param\ \ y\ \ \ un\ parametro\ d'esempio\ per\ un\ metodo\r\n\ @return\ \ \ \ \ la\ somma\ di\ x\ e\ y\r\n
+comment1.params=mappa
+comment1.target=CarroArmato(Mappa)
+comment2.params=direzione\ carroDaMuovereGraficamente1\ carroDaMuovereGraficamente2
+comment2.target=void\ muoviCarro(java.lang.String,\ javax.swing.JLabel,\ javax.swing.JLabel)
 numComments=3

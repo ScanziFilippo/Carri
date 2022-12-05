@@ -42,18 +42,6 @@ public class Mappa extends JFrame
         //Grafica campo e carri
         setLayout(null);
         setSize(1800,1000);
-        JLabel carro1=new JLabel(new ImageIcon("Carro1.png"));
-        JLabel carro2=new JLabel(new ImageIcon("Carro2.png"));
-        //Carro
-        int posizioneCarroX=200;
-        int posizioneCarroY=200;
-        add(carro2);
-        carro2.setSize(350, 100);
-        carro2.setLocation(posizioneCarroX-100, posizioneCarroY);
-        add(carro1);
-        carro1.setSize(181, 100);
-        carro1.setLocation(posizioneCarroX, posizioneCarroY);
-        //
         show();
     }
 }
