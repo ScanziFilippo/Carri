@@ -5,7 +5,7 @@ public class Mappa extends JFrame
 {
     public Mappa()
     {
-        //Struttura dati campo
+        //Genera la struttura e dati del campo
         String[][] matrice=new String[15][10];
         for(int x=0; x<15; x++){
             for(int y=0;y<10;y++){
@@ -35,17 +35,25 @@ public class Mappa extends JFrame
         }
         for(int y=0;y<10;y++){
             for(int x=0; x<15; x++){
-                System.out.print(matrice[x][y]+" ");
+                //System.out.print(matrice[x][y]+" ");
             }
-            System.out.println();
+            //System.out.println();
         }
-        //Grafica
+        //Grafica campo e carri
         setLayout(null);
         setSize(1800,1000);
-        JLabel immagine=new JLabel(new ImageIcon("C:\\Users\\scanzi.19041\\Desktop\\c.jpg"));
-        add(immagine);
-        immagine.setSize(1000, 1000);
-        immagine.setLocation(200, 200);
+        JLabel carro1=new JLabel(new ImageIcon("Carro1.png"));
+        JLabel carro2=new JLabel(new ImageIcon("Carro2.png"));
+        //Carro
+        int posizioneCarroX=200;
+        int posizioneCarroY=200;
+        add(carro2);
+        carro2.setSize(350, 100);
+        carro2.setLocation(posizioneCarroX-100, posizioneCarroY);
+        add(carro1);
+        carro1.setSize(181, 100);
+        carro1.setLocation(posizioneCarroX, posizioneCarroY);
+        //
         show();
     }
 }
