@@ -2,6 +2,10 @@
 comment0.target=CarroArmato
 comment1.params=mappa
 comment1.target=CarroArmato(Mappa)
-comment2.params=direzione\ carroDaMuovereGraficamente1\ carroDaMuovereGraficamente2
-comment2.target=void\ muoviCarro(java.lang.String,\ javax.swing.JLabel,\ javax.swing.JLabel)
-numComments=3
+comment2.params=
+comment2.target=int\ daiPosizioneX()
+comment3.params=
+comment3.target=int\ daiPosizioneY()
+comment4.params=direzione\ carroDaMuovereGraficamente1\ carroDaMuovereGraficamente2
+comment4.target=void\ muoviCarro(java.lang.String,\ javax.swing.JLabel,\ javax.swing.JLabel)
+numComments=5

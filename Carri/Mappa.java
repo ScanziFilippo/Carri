@@ -1,10 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class Mappa extends JFrame
+public class Mappa extends JFrame implements MouseListener
 {
+    public CarroArmato carro;
     public Mappa()
     {
+        //Mouse
+        addMouseListener(this);  
         //Genera la struttura e dati del campo
         String[][] matrice=new String[15][10];
         for(int x=0; x<15; x++){
@@ -41,7 +45,47 @@ public class Mappa extends JFrame
         }
         //Grafica campo e carri
         setLayout(null);
-        setSize(1800,1000);
+        setSize(1500,1000);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        setUndecorated(true);
+        setVisible(true);
+    }
+    public void passaStoCarro(CarroArmato carroInEntrata){
+        carro= carroInEntrata;
+    }
+    public void aggiungiScacchiera(){
+        JLabel scacchiera=new JLabel(new ImageIcon("scacchiera.png"));
+        add(scacchiera);
+        scacchiera.setSize(1920, 1080);
+        scacchiera.setLocation(0, 0);
         show();
+    }
+    public void mouseClicked(MouseEvent e) {  
+        int posizioneRelativaX=e.getX()-carro.daiPosizioneX()-15;
+        int posizioneRelativaY=e.getY()-carro.daiPosizioneY()+10;
+        //System.out.println(posizioneRelativaX+" "+posizioneRelativaY);
+        if(posizioneRelativaX>=0 && posizioneRelativaX<=148){
+            if(posizioneRelativaY<0 && posizioneRelativaY>=-148){
+                carro.muoviCarro("N", carro.carro1, carro.carro2);
+            }else if(posizioneRelativaY>148 && posizioneRelativaY<296){
+                carro.muoviCarro("S", carro.carro1, carro.carro2);
+            }
+        }else if(posizioneRelativaX<0 && posizioneRelativaX>=-148){
+            if(posizioneRelativaY>0 && posizioneRelativaY<148){
+                carro.muoviCarro("O", carro.carro1, carro.carro2);
+            }
+        }else if(posizioneRelativaX>=148 && posizioneRelativaX<296){
+            if(posizioneRelativaY>0 && posizioneRelativaY<148){
+                carro.muoviCarro("E", carro.carro1, carro.carro2);
+            }
+        }
+    }  
+    public void mouseEntered(MouseEvent e) {  
+    }  
+    public void mouseExited(MouseEvent e) {  
+    }  
+    public void mousePressed(MouseEvent e) {  
+    }  
+    public void mouseReleased(MouseEvent e) {  
     }
 }

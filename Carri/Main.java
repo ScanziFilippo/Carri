@@ -1,9 +1,12 @@
 public class Main
 {
+    public CarroArmato carro;
     public Main()
     {
         Mappa mappa=new Mappa();
-        CarroArmato carro=new CarroArmato(mappa);
+        carro=new CarroArmato(mappa);
+        mappa.passaStoCarro(carro);
         Nemici nemico1=new Nemici(mappa);
+        mappa.aggiungiScacchiera();
     }
 }
