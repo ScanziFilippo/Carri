@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Nemici
+comment1.params=mappa
+comment1.target=Nemici(Mappa)
+comment2.params=direzione\ carroDaMuovereGraficamente1\ carroDaMuovereGraficamente2
+comment2.target=void\ muoviCarro(java.lang.String,\ javax.swing.JLabel,\ javax.swing.JLabel)
+numComments=3
