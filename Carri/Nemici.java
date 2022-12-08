@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class Nemici extends Thread
 {
-    int posizioneCarroX=1760;
+    int posizioneCarroX=1612;
     int posizioneCarroY=490;
     public Nemici(Mappa mappa){
         JLabel carro1=new JLabel(new ImageIcon("Nemico1.png"));
