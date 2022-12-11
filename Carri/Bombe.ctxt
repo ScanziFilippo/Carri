@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Bombe
+comment1.params=mappa\ bombe
+comment1.target=Bombe(Mappa,\ javax.swing.JLabel[])
+comment2.params=
+comment2.target=void\ run()
+numComments=3

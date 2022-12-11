@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.JLabel;
+import java.io.File;
+import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
 
 public class Mappa extends JFrame implements MouseListener
 {
@@ -12,6 +15,10 @@ public class Mappa extends JFrame implements MouseListener
     public int xDelCarro=1;
     public int yDelCarro=4;
     public String[][] matrice=new String[13][9];
+    BufferedImage image;
+    JLabel esplosione;
+    Esplosione esplo;
+    JLabel[] bombe;
     public Mappa()
     {
         //Mouse
@@ -25,7 +32,7 @@ public class Mappa extends JFrame implements MouseListener
         for(int x=0; x<13; x++){
             if(x==0){
                 matrice[0][4]="B";
-                matrice[12][4]="B";
+                matrice[12][4]="BN";
             }else if(x==1){
                 matrice[1][4]="C";
             }else if(x>1 && x<11){
@@ -43,6 +50,9 @@ public class Mappa extends JFrame implements MouseListener
                 matrice[11][7]="N";
             }
         }
+        matrice[2][4]="m";
+        matrice[3][4]="m";
+        matrice[4][4]="p";
         for(int y=0;y<9;y++){
             for(int x=0; x<13; x++){
                 System.out.print(matrice[x][y]+" ");
@@ -59,6 +69,16 @@ public class Mappa extends JFrame implements MouseListener
         add(b29);
         b29.setSize(650,911);
         b29.setLocation(-800,85);
+        bombe=new JLabel[10];
+        for(int i=0;i<10;i++){
+            bombe[i]=new JLabel(new ImageIcon("esplosione.gif"));
+            add(bombe[i]);
+            bombe[i].setSize(200,282);
+            bombe[i].setLocation(-500, -500);
+        }
+        esplosione=new JLabel(new ImageIcon("esplosione.gif"));
+        add(esplosione);
+        esplo=new Esplosione(esplosione);
         bandiera1=new JLabel(new ImageIcon("bandiera1.png"));
         add(bandiera1);
         bandiera1.setSize(650,911);
@@ -71,6 +91,10 @@ public class Mappa extends JFrame implements MouseListener
     public void passaStoCarro(CarroArmato carroInEntrata){
         carro=carroInEntrata;
         carro.start();
+        carro.aggiungiStaMappa(this);
+        carro.aggiungiStoB29(b29);
+        carro.aggiungiSteBombe(bombe);
+        carro.aggiungiStaEsplosione(esplosione);
     }
     public void aggiungiScacchiera(){
         JLabel scacchiera=new JLabel(new ImageIcon("scacchiera.png"));
@@ -79,55 +103,39 @@ public class Mappa extends JFrame implements MouseListener
         scacchiera.setLocation(0, 0);
         show();
     }
-    public void chiamaB29(){
-        for(int i=-800;i<2600;i++){
-            System.out.println(i);
-            b29.setLocation(i,85);
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (InterruptedException ie)
-            {
-                ie.printStackTrace();
-            }
-        }
-    }
     public void mouseClicked(MouseEvent e) {  
         int posizioneRelativaX=e.getX()-carro.daiPosizioneX()-15;
         int posizioneRelativaY=e.getY()-carro.daiPosizioneY()+10;
         xDelCarro=(carro.posizioneCarroX+15)/148;
         yDelCarro=(carro.posizioneCarroY-10)/120;
         //System.out.println(posizioneRelativaX+" "+posizioneRelativaY);
+        carro.resume();
         if(e.getButton()==3){
             if(posizioneRelativaX>=0 && posizioneRelativaX<=148){
                 if(posizioneRelativaY<0 && posizioneRelativaY>=-148){
-                    if(matrice[xDelCarro][yDelCarro-1]!="B" && matrice[xDelCarro][yDelCarro-1]!="N"){
+                    if(/*matrice[xDelCarro][yDelCarro-1]!="B" && */matrice[xDelCarro][yDelCarro-1]!="N"){
                         carro.muoviCarro("N", carro.carro1, carro.carro2);
                     }
                 }else if(posizioneRelativaY>148 && posizioneRelativaY<296){
-                    if(matrice[xDelCarro][yDelCarro+1]!="B" && matrice[xDelCarro][yDelCarro+1]!="N"){
+                    if(/*matrice[xDelCarro][yDelCarro+1]!="B" && */matrice[xDelCarro][yDelCarro+1]!="N"){
                         carro.muoviCarro("S", carro.carro1, carro.carro2);
                     }
                 }
             }else if(posizioneRelativaX<0 && posizioneRelativaX>=-148){
                 if(posizioneRelativaY>0 && posizioneRelativaY<148){
-                    if(matrice[xDelCarro-1][yDelCarro]!="B" && matrice[xDelCarro-1][yDelCarro]!="N"){
+                    if(/*matrice[xDelCarro-1][yDelCarro]!="B" && */matrice[xDelCarro-1][yDelCarro]!="N"){
                         carro.muoviCarro("O", carro.carro1, carro.carro2);
                     }
                 }
             }else if(posizioneRelativaX>=148 && posizioneRelativaX<296){
                 if(posizioneRelativaY>0 && posizioneRelativaY<148){
-                    if(matrice[xDelCarro+1][yDelCarro]!="B" && matrice[xDelCarro+1][yDelCarro]!="N"){
+                    if(/*matrice[xDelCarro+1][yDelCarro]!="B" && */matrice[xDelCarro+1][yDelCarro]!="N"){
                         carro.muoviCarro("E", carro.carro1, carro.carro2);
                     }
                 }
-            }else{
-                if(e.getX()==1919){
-                    B29 pilotaB29=new B29(b29);
-                    pilotaB29.start();
-                }
-            }
+            }            
+        }else{
+            
         }
     }
     public void mouseEntered(MouseEvent e) {  

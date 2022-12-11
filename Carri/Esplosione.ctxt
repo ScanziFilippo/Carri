@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Esplosione
+comment1.params=esplosione
+comment1.target=Esplosione(javax.swing.JLabel)
+comment2.params=x\ y
+comment2.target=void\ dammiXY(int,\ int)
+comment3.params=
+comment3.target=void\ run()
+numComments=4
