@@ -12,6 +12,7 @@ public class CarroArmato extends Thread
     int posizioneCarroY=490;
     int spostamentoX=148;
     int spostamentoY=120;
+    int vita=6;
     JLabel carro1;
     JLabel carro2;
     String direzione="";
@@ -52,8 +53,44 @@ public class CarroArmato extends Thread
     public void aggiungiSteBombe(JLabel[] bombe){
         this.bombe=bombe;
     }
-    public void sparaA(String direzioneSparo){
+    public void sparaA(String direzioneSparo, JLabel carroDaMuovereGraficamente1, JLabel carroDaMuovereGraficamente2){
         this.direzioneSparo=direzioneSparo;
+        System.out.println("Sparo a "+ direzioneSparo);
+        switch(direzioneSparo){
+            case "N":
+                for(int y=1;y<=3;y++){
+                    if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120-y]=="N"){
+                        mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120-y);
+                        break;
+                    }
+                }
+                break;
+            case "E":
+                for(int x=1;x<=3;x++){
+                    if(mappa.matrice[(posizioneCarroX+15)/148+x][(posizioneCarroY-10)/120]=="N"){
+                        mappa.trovaCarro((posizioneCarroX+15)/148+x, (posizioneCarroY-10)/120);
+                        break;
+                    }
+                }
+                break;
+            case "S":
+                for(int y=1;y<=3;y++){
+                    if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120+y]=="N"){
+                        mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120+y);
+                        break;
+                    }
+                }
+                break;
+            case "O":
+                for(int x=1;x<=3;x++){
+                    if(mappa.matrice[(posizioneCarroX+15)/148-x][(posizioneCarroY-10)/120]=="N"){
+                        mappa.trovaCarro((posizioneCarroX+15)/148-x, (posizioneCarroY-10)/120);
+                        break;
+                    }
+                }
+                break;
+        }
+        resume();
     }
     public void muoviTorretta(){
     }
@@ -62,6 +99,8 @@ public class CarroArmato extends Thread
         while(true){
             //NON TOCCARE E NON TOGLIERE LA LINEA SOTTO O NON FUNZIONA IL MOVIMENTO
             System.out.println(direzione);
+            int xDelCarro=(posizioneCarroX+15)/148;
+            int yDelCarro=(posizioneCarroY-10)/120;
             switch(direzione){
                 case "N":
                     //ruota
@@ -78,6 +117,7 @@ public class CarroArmato extends Thread
                             ie.printStackTrace();
                         }
                     }
+                    mappa.matrice[xDelCarro][yDelCarro]="-";
                     break;
                 case "E":
                     for(int i=0;i<spostamentoX;i++){
@@ -93,6 +133,7 @@ public class CarroArmato extends Thread
                             ie.printStackTrace();
                         }
                     }
+                    mappa.matrice[xDelCarro][yDelCarro]="-";
                     break;
                 case "S":
                     for(int i=0;i<spostamentoY;i++){
@@ -108,6 +149,7 @@ public class CarroArmato extends Thread
                             ie.printStackTrace();
                         }
                     }
+                    mappa.matrice[xDelCarro][yDelCarro]="-";
                     break;
                 case "O":
                     for(int i=0;i<spostamentoX;i++){
@@ -123,6 +165,7 @@ public class CarroArmato extends Thread
                             ie.printStackTrace();
                         }
                     }
+                    mappa.matrice[xDelCarro][yDelCarro]="-";
                     break;
             }
             direzione="";
@@ -132,6 +175,7 @@ public class CarroArmato extends Thread
             }else if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="m"){
                 Esplosione esplo=new Esplosione(esplosione);
                 esplo.dammiXY(posizioneCarroX+15,posizioneCarroY-10);
+                vita--;
                 try
                 {
                     sleep(1200);
@@ -139,6 +183,9 @@ public class CarroArmato extends Thread
                 catch (InterruptedException ie)
                 {
                     ie.printStackTrace();
+                }
+                if(vita==0){
+                    mappa.sconfitta();
                 }
             }else if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="BN"){
                 bandieraPresa=true;
@@ -149,30 +196,52 @@ public class CarroArmato extends Thread
             if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]!="B"){
                 mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]="-";
             }
-            for(int i=0;i<4;i++){
+            mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]="C";
+            for(int i=0;i<3;i++){
+                xDelCarro=(mappa.nemici[i].posizioneCarroX+16)/148;
+                yDelCarro=(mappa.nemici[i].posizioneCarroY-10)/120;
+                //System.out.println((mappa.nemici[i].posizioneCarroX+16)/148+" "+(mappa.nemici[i].posizioneCarroY-10)/120);
                 if(mappa.nemici[i].bandieraPresa){
-                    if((posizioneCarroX+15)/148!=12){
-                        mappa.nemici[i].muoviCarro("E");
+                    if((mappa.nemici[i].posizioneCarroX+16)/148!=12){
+                        if(mappa.matrice[xDelCarro+1][yDelCarro]!="N" && mappa.matrice[xDelCarro+1][yDelCarro]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                            mappa.nemici[i].muoviCarro("E");
+                        }
                     }else{
-                        if((posizioneCarroY-10)/120<4){
-                            mappa.nemici[i].muoviCarro("S");
-                        }else{
-                            mappa.nemici[i].muoviCarro("N");
+                        if((mappa.nemici[i].posizioneCarroY-10)/120<4){
+                            if(mappa.matrice[xDelCarro][yDelCarro+1]!="N" && mappa.matrice[xDelCarro][yDelCarro+1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                                mappa.nemici[i].muoviCarro("S");
+                            }
+                        }else if((mappa.nemici[i].posizioneCarroY-10)/120<4){
+                            if(mappa.matrice[xDelCarro][yDelCarro-1]!="N" && mappa.matrice[xDelCarro][yDelCarro-1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                                mappa.nemici[i].muoviCarro("N");
+                            }
                         }
                     }
                 }else{
-                    if((posizioneCarroX+15)/148!=0){
-                        mappa.nemici[i].muoviCarro("O");
+                    if((mappa.nemici[i].posizioneCarroX+16)/148!=0){
+                        if(mappa.matrice[xDelCarro-1][yDelCarro]!="N" && mappa.matrice[xDelCarro-1][yDelCarro]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                            mappa.nemici[i].muoviCarro("O");
+                        }
                     }else{
-                        if((posizioneCarroY-10)/120<4){
-                            mappa.nemici[i].muoviCarro("S");
+                        if((mappa.nemici[i].posizioneCarroY-10)/120<4){
+                            if(mappa.matrice[xDelCarro][yDelCarro+1]!="N" && mappa.matrice[xDelCarro][yDelCarro+1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                                mappa.nemici[i].muoviCarro("S");
+                            }
                         }else{
-                            mappa.nemici[i].muoviCarro("N");
+                            if(mappa.matrice[xDelCarro][yDelCarro-1]!="N" && mappa.matrice[xDelCarro][yDelCarro-1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                                mappa.nemici[i].muoviCarro("N");
+                            }
                         }
                     }
-                }   
+                }
                 mappa.nemici[i].resume();
             }
+            /*for(int y=0;y<9;y++){
+            for(int x=0; x<13; x++){
+                System.out.print(mappa.matrice[x][y]+" ");
+            }
+            System.out.println();
+        }*/
             suspend();
             /*try
             {

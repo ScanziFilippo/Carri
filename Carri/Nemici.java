@@ -2,8 +2,8 @@ import javax.swing.*;
 
 public class Nemici extends Thread
 {
-    int posizioneCarroX=1612;
-    int posizioneCarroY=490;
+    int posizioneCarroX;
+    int posizioneCarroY;
     String direzione="";
     int spostamentoX=148;
     int spostamentoY=120;
@@ -12,6 +12,7 @@ public class Nemici extends Thread
     Mappa mappa;
     JLabel esplosione;
     boolean bandieraPresa=false;
+    int vita=2;
     public Nemici(Mappa mappa, int posizioneCarroX,int posizioneCarroY){
         this.mappa=mappa;
         carro1=new JLabel(new ImageIcon("Nemico1.png"));
@@ -22,6 +23,8 @@ public class Nemici extends Thread
         mappa.add(carro1);
         carro1.setSize(181, 100);
         carro1.setLocation(posizioneCarroX, posizioneCarroY);
+        this.posizioneCarroX=posizioneCarroX;
+        this.posizioneCarroY=posizioneCarroY;
     }
     public void muoviCarro(String direzione){
         this.direzione=direzione;
@@ -32,11 +35,19 @@ public class Nemici extends Thread
     public void run(){
         suspend();
         while(true){
-            //NON TOCCARE E NON TOGLIERE LA LINEA SOTTO O NON FUNZIONA IL MOVIMENTO
-            System.out.println(direzione);
+            int xDelCarro=(posizioneCarroX+16)/148;
+            int yDelCarro=(posizioneCarroY-10)/120;
+            if(vita==0){
+                    Esplosione esplo=new Esplosione(esplosione);
+                    esplo.dammiXY(posizioneCarroX+16,posizioneCarroY-10);
+                    carro1.setVisible(false);
+                    carro2.setVisible(false);
+                    stop();
+            }
             switch(direzione){
                 case "N":
                     //ruota
+                    
                     for(int i=0;i<spostamentoY;i++){
                         posizioneCarroY--;
                         carro1.setLocation(posizioneCarroX, posizioneCarroY);
@@ -97,10 +108,11 @@ public class Nemici extends Thread
                     }
                     break;
             }
+            mappa.matrice[xDelCarro][yDelCarro]="-";
             direzione="";
-            if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="m"){
+            if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]=="m"){
                 Esplosione esplo=new Esplosione(esplosione);
-                esplo.dammiXY(posizioneCarroX+15,posizioneCarroY-10);
+                esplo.dammiXY(posizioneCarroX+16,posizioneCarroY-10);
                 try
                 {
                     sleep(1200);
@@ -109,15 +121,22 @@ public class Nemici extends Thread
                 {
                     ie.printStackTrace();
                 }
-            }else if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="B"){
-                bandieraPresa= true;
+                vita--;
+                if(vita==0){
+                    carro1.setVisible(false);
+                    carro2.setVisible(false);
+                    stop();
+                }
+            }else if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]=="B"){
+                bandieraPresa=true;
                 mappa.bandiera1.setVisible(false);
-            }else if(bandieraPresa && mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="BN"){
-                mappa.perso();
+            }else if(bandieraPresa && mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]=="BN"){
+                mappa.sconfitta();
             }
-            if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]!="B"){
-                mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]="-";
+            if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]!="BN"){
+                mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]="-";
             }
+            mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]="N";
             suspend();
         }
     }

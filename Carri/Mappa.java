@@ -39,23 +39,19 @@ public class Mappa extends JFrame implements MouseListener
             }else if(x==1){
                 matrice[1][4]="C";
             }else if(x>1 && x<11){
-                for(int y=0;y<9;y++){
+                for(int y=2;y<7;y++){
                     if(Math.random()<0.01){
                         matrice[x][y]="p";
-                    }else if(Math.random()<0.02){
+                    }else if(Math.random()<0.1){
                         matrice[x][y]="m";
                     }
                 }
             }else if(x==11){
-                matrice[11][1]="N";
-                matrice[11][3]="N";
-                matrice[11][5]="N";
-                matrice[11][7]="N";
+                matrice[11][2]="N";
+                matrice[11][4]="N";
+                matrice[11][6]="N";
             }
         }
-        matrice[2][4]="m";
-        matrice[3][4]="m";
-        matrice[4][4]="p";
         for(int y=0;y<9;y++){
             for(int x=0; x<13; x++){
                 System.out.print(matrice[x][y]+" ");
@@ -95,11 +91,10 @@ public class Mappa extends JFrame implements MouseListener
         bandiera2.setSize(650,911);
         bandiera2.setLocation(1520,80);
         nemici=new Nemici[4];
-        nemici[0]=new Nemici(this,1612,130);
-        nemici[1]=new Nemici(this,1612,370);
-        nemici[2]=new Nemici(this,1612,610);
-        nemici[3]=new Nemici(this,1612,850);
-        for(int i=0;i<4;i++){
+        nemici[0]=new Nemici(this,1612,250);
+        nemici[1]=new Nemici(this,1612,490);
+        nemici[2]=new Nemici(this,1612,730);
+        for(int i=0;i<3;i++){
             nemici[i].aggiungiStaEsplosione(esplosione);
             nemici[i].start();
         }
@@ -125,11 +120,18 @@ public class Mappa extends JFrame implements MouseListener
         vittoria.setFont(new Font("Serif", Font.PLAIN, 128));
         vittoria.setHorizontalAlignment(JLabel.CENTER);
     }
-    public void perso(){
+    public void sconfitta(){
         perso.setSize(1920,1080);
         perso.setLocation(0,0);
         perso.setFont(new Font("Serif", Font.PLAIN, 128));
         perso.setHorizontalAlignment(JLabel.CENTER);
+    }
+    public void trovaCarro(int x, int y){
+        for(int i=0;i<3;i++){
+            if((nemici[i].posizioneCarroX+16)/148==x && (nemici[i].posizioneCarroY-10)/120==y){
+                nemici[i].vita--;
+            }
+        }
     }
     public void mouseClicked(MouseEvent e) {  
         int posizioneRelativaX=e.getX()-carro.daiPosizioneX()-15;
@@ -162,7 +164,30 @@ public class Mappa extends JFrame implements MouseListener
                     }
                 }
             }            
-        }else{
+        }else if(e.getButton()==1){
+            if(posizioneRelativaX>=0 && posizioneRelativaX<=148){
+                if(posizioneRelativaY<0){
+                    if(/*matrice[xDelCarro][yDelCarro-1]!="B" && */matrice[xDelCarro][yDelCarro-1]!="N"){
+                        carro.sparaA("N", carro.carro1, carro.carro2);
+                    }
+                }else if(posizioneRelativaY>148){
+                    if(/*matrice[xDelCarro][yDelCarro+1]!="B" && */matrice[xDelCarro][yDelCarro+1]!="N"){
+                        carro.sparaA("S", carro.carro1, carro.carro2);
+                    }
+                }
+            }else if(posizioneRelativaX<0){
+                if(posizioneRelativaY>0 && posizioneRelativaY<148){
+                    if(/*matrice[xDelCarro-1][yDelCarro]!="B" && */matrice[xDelCarro-1][yDelCarro]!="N"){
+                        carro.sparaA("O", carro.carro1, carro.carro2);
+                    }
+                }
+            }else if(posizioneRelativaX>=148){
+                if(posizioneRelativaY>0 && posizioneRelativaY<148){
+                    if(/*matrice[xDelCarro+1][yDelCarro]!="B" && */matrice[xDelCarro+1][yDelCarro]!="N"){
+                        carro.sparaA("E", carro.carro1, carro.carro2);
+                    }
+                }
+            }    
         }
     }
     public void mouseEntered(MouseEvent e) {  
