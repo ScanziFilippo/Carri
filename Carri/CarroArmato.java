@@ -20,6 +20,7 @@ public class CarroArmato extends Thread
     JLabel b29;
     JLabel esplosione;
     JLabel[] bombe;
+    String direzioneSparo="";
     public CarroArmato(Mappa mappa){
         carro1=new JLabel(new ImageIcon("Carro1.png"));
         carro2=new JLabel(new ImageIcon("Carro2.png"));
@@ -51,40 +52,10 @@ public class CarroArmato extends Thread
     public void aggiungiSteBombe(JLabel[] bombe){
         this.bombe=bombe;
     }
+    public void sparaA(String direzioneSparo){
+        this.direzioneSparo=direzioneSparo;
+    }
     public void muoviTorretta(){
-            BufferedImage image=null;
-            try
-            {
-                image = ImageIO.read(new File("carro2.png"));
-            }
-            catch (java.io.IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
-            // crea una trasformazione affine per ruotare l'immagine
-            AffineTransform transform = AffineTransform.getRotateInstance(
-                Math.toRadians(45), // angolo di rotazione in radianti
-                image.getWidth() / 2, // x del punto centrale di rotazione
-                image.getHeight() / 2 // y del punto centrale di rotazione
-            );
-    
-            // applica la trasformazione affine all'immagine
-            BufferedImage rotatedImage = new BufferedImage(
-                image.getWidth(),
-                image.getHeight(),
-                BufferedImage.TYPE_INT_ARGB
-            );
-            Graphics2D g2d = rotatedImage.createGraphics();
-            g2d.setTransform(transform);
-            g2d.drawImage(image, 0, 0, null);
-            g2d.dispose();
-            carro2=new JLabel(new ImageIcon(rotatedImage));
-            /*try {
-                // retrieve image
-                File outputfile = new File("saved.png");
-                ImageIO.write(rotatedImage, "png", outputfile);
-            } catch (java.io.IOException ioe) {
-            }*/
     }
     public void run(){
         suspend();
@@ -169,8 +140,39 @@ public class CarroArmato extends Thread
                 {
                     ie.printStackTrace();
                 }
+            }else if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="BN"){
+                bandieraPresa=true;
+                mappa.bandiera2.setVisible(false);
+            }else if(bandieraPresa && mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]=="B"){
+                mappa.vittoria();
             }
-            mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]="-";
+            if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]!="B"){
+                mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120]="-";
+            }
+            for(int i=0;i<4;i++){
+                if(mappa.nemici[i].bandieraPresa){
+                    if((posizioneCarroX+15)/148!=12){
+                        mappa.nemici[i].muoviCarro("E");
+                    }else{
+                        if((posizioneCarroY-10)/120<4){
+                            mappa.nemici[i].muoviCarro("S");
+                        }else{
+                            mappa.nemici[i].muoviCarro("N");
+                        }
+                    }
+                }else{
+                    if((posizioneCarroX+15)/148!=0){
+                        mappa.nemici[i].muoviCarro("O");
+                    }else{
+                        if((posizioneCarroY-10)/120<4){
+                            mappa.nemici[i].muoviCarro("S");
+                        }else{
+                            mappa.nemici[i].muoviCarro("N");
+                        }
+                    }
+                }   
+                mappa.nemici[i].resume();
+            }
             suspend();
             /*try
             {

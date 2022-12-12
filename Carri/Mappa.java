@@ -19,6 +19,9 @@ public class Mappa extends JFrame implements MouseListener
     JLabel esplosione;
     Esplosione esplo;
     JLabel[] bombe;
+    JLabel vittoria;
+    JLabel perso;
+    Nemici[] nemici;
     public Mappa()
     {
         //Mouse
@@ -65,6 +68,10 @@ public class Mappa extends JFrame implements MouseListener
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
         setUndecorated(true);
         setVisible(true);
+        vittoria = new JLabel("VITTORIA!");
+        add(vittoria);
+        perso = new JLabel("HAI PERSO!");
+        add(perso);
         b29=new JLabel(new ImageIcon("b29.png"));
         add(b29);
         b29.setSize(650,911);
@@ -87,6 +94,15 @@ public class Mappa extends JFrame implements MouseListener
         add(bandiera2);
         bandiera2.setSize(650,911);
         bandiera2.setLocation(1520,80);
+        nemici=new Nemici[4];
+        nemici[0]=new Nemici(this,1612,130);
+        nemici[1]=new Nemici(this,1612,370);
+        nemici[2]=new Nemici(this,1612,610);
+        nemici[3]=new Nemici(this,1612,850);
+        for(int i=0;i<4;i++){
+            nemici[i].aggiungiStaEsplosione(esplosione);
+            nemici[i].start();
+        }
     }
     public void passaStoCarro(CarroArmato carroInEntrata){
         carro=carroInEntrata;
@@ -102,6 +118,18 @@ public class Mappa extends JFrame implements MouseListener
         scacchiera.setSize(1920, 1080);
         scacchiera.setLocation(0, 0);
         show();
+    }
+    public void vittoria(){
+        vittoria.setSize(1920,1080);
+        vittoria.setLocation(0,0);
+        vittoria.setFont(new Font("Serif", Font.PLAIN, 128));
+        vittoria.setHorizontalAlignment(JLabel.CENTER);
+    }
+    public void perso(){
+        perso.setSize(1920,1080);
+        perso.setLocation(0,0);
+        perso.setFont(new Font("Serif", Font.PLAIN, 128));
+        perso.setHorizontalAlignment(JLabel.CENTER);
     }
     public void mouseClicked(MouseEvent e) {  
         int posizioneRelativaX=e.getX()-carro.daiPosizioneX()-15;
@@ -135,7 +163,6 @@ public class Mappa extends JFrame implements MouseListener
                 }
             }            
         }else{
-            
         }
     }
     public void mouseEntered(MouseEvent e) {  
