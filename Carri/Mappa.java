@@ -129,7 +129,11 @@ public class Mappa extends JFrame implements MouseListener
     public void trovaCarro(int x, int y){
         for(int i=0;i<3;i++){
             if((nemici[i].posizioneCarroX+16)/148==x && (nemici[i].posizioneCarroY-10)/120==y){
+                System.out.println("Trovato il carro "+i);
                 nemici[i].vita--;
+            }else{
+                System.out.println("Nessuno carro a "+x+" "+y);
+                System.out.println("carro "+i+" a "+ (nemici[i].posizioneCarroX+16)/148+" "+(nemici[i].posizioneCarroY-10)/120);
             }
         }
     }

@@ -59,40 +59,93 @@ public class CarroArmato extends Thread
         switch(direzioneSparo){
             case "N":
                 for(int y=1;y<=3;y++){
-                    if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120-y]=="N"){
-                        mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120-y);
-                        break;
+                    try{
+                        if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120-y]=="N"){
+                            mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120-y);
+                            break;
+                        }
+                    }catch(ArrayIndexOutOfBoundsException exception){
+                        y=4;
                     }
                 }
                 break;
             case "E":
                 for(int x=1;x<=3;x++){
-                    if(mappa.matrice[(posizioneCarroX+15)/148+x][(posizioneCarroY-10)/120]=="N"){
-                        mappa.trovaCarro((posizioneCarroX+15)/148+x, (posizioneCarroY-10)/120);
-                        break;
+                    try{
+                        if(mappa.matrice[(posizioneCarroX+15)/148+x][(posizioneCarroY-10)/120]=="N"){
+                            mappa.trovaCarro((posizioneCarroX+15)/148+x, (posizioneCarroY-10)/120);
+                            break;
+                        }
+                    }catch(ArrayIndexOutOfBoundsException exception){
+                        x=4;
                     }
                 }
                 break;
             case "S":
                 for(int y=1;y<=3;y++){
-                    if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120+y]=="N"){
+                    try{
+                        if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120+y]=="N"){
                         mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120+y);
                         break;
+                        }
+                    }catch(ArrayIndexOutOfBoundsException exception){
+                        y=4;
                     }
                 }
                 break;
             case "O":
                 for(int x=1;x<=3;x++){
-                    if(mappa.matrice[(posizioneCarroX+15)/148-x][(posizioneCarroY-10)/120]=="N"){
-                        mappa.trovaCarro((posizioneCarroX+15)/148-x, (posizioneCarroY-10)/120);
-                        break;
+                    try{
+                        if(mappa.matrice[(posizioneCarroX+15)/148-x][(posizioneCarroY-10)/120]=="N"){
+                            mappa.trovaCarro((posizioneCarroX+15)/148-x, (posizioneCarroY-10)/120);
+                            break;
+                        }
+                    }catch(ArrayIndexOutOfBoundsException exception){
+                        x=4;
                     }
-                }
                 break;
+            }
         }
         resume();
     }
-    public void muoviTorretta(){
+    public String ciSonoNemici(){
+        for(int y=1;y<=3;y++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120-y]=="N"){
+                    return "N";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                y=4;
+            }
+        }
+        for(int x=1;x<=3;x++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+15)/148+x][(posizioneCarroY-10)/120]=="N"){
+                    return "E";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                x=4;
+            }
+        }
+        for(int y=1;y<=3;y++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120+y]=="N"){
+                    return "S";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                y=4;
+            }
+        }
+        for(int x=1;x<=3;x++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+15)/148-x][(posizioneCarroY-10)/120]=="N"){
+                    return "O";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                x=4;
+            }
+        }
+        return "";
     }
     public void run(){
         suspend();
@@ -201,7 +254,7 @@ public class CarroArmato extends Thread
                 xDelCarro=(mappa.nemici[i].posizioneCarroX+16)/148;
                 yDelCarro=(mappa.nemici[i].posizioneCarroY-10)/120;
                 //System.out.println((mappa.nemici[i].posizioneCarroX+16)/148+" "+(mappa.nemici[i].posizioneCarroY-10)/120);
-                if(mappa.nemici[i].bandieraPresa){
+                if(mappa.nemici[0].bandieraPresa||mappa.nemici[1].bandieraPresa||mappa.nemici[2].bandieraPresa){
                     if((mappa.nemici[i].posizioneCarroX+16)/148!=12){
                         if(mappa.matrice[xDelCarro+1][yDelCarro]!="N" && mappa.matrice[xDelCarro+1][yDelCarro]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
                             mappa.nemici[i].muoviCarro("E");
@@ -218,7 +271,16 @@ public class CarroArmato extends Thread
                         }
                     }
                 }else{
-                    if((mappa.nemici[i].posizioneCarroX+16)/148!=0){
+                    if(ciSonoNemici()=="N"){
+                        mappa.nemici[i].sparaA("S");
+                    }else if(ciSonoNemici()=="E"){
+                        mappa.nemici[i].sparaA("O");
+                    }else if(ciSonoNemici()=="S"){
+                        mappa.nemici[i].sparaA("N");
+                    }else if(ciSonoNemici()=="O"){
+                        mappa.nemici[i].sparaA("E");
+                    }
+                    else if((mappa.nemici[i].posizioneCarroX+16)/148!=0){
                         if(mappa.matrice[xDelCarro-1][yDelCarro]!="N" && mappa.matrice[xDelCarro-1][yDelCarro]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
                             mappa.nemici[i].muoviCarro("O");
                         }

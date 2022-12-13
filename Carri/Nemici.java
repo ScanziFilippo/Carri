@@ -13,6 +13,7 @@ public class Nemici extends Thread
     JLabel esplosione;
     boolean bandieraPresa=false;
     int vita=2;
+    String direzioneSparo;
     public Nemici(Mappa mappa, int posizioneCarroX,int posizioneCarroY){
         this.mappa=mappa;
         carro1=new JLabel(new ImageIcon("Nemico1.png"));
@@ -31,6 +32,16 @@ public class Nemici extends Thread
     }
     public void aggiungiStaEsplosione(JLabel esplosione){
         this.esplosione=esplosione;
+    }
+    public void sparaA(String direzioneSparo){
+        this.direzioneSparo=direzioneSparo;
+        System.out.println("Nemico spara a "+ direzioneSparo);
+        mappa.carro.vita--;
+        System.out.println("Hai "+ mappa.carro.vita+"vite");
+        if(mappa.carro.vita==0){
+            mappa.sconfitta();
+        }
+        resume();
     }
     public void run(){
         suspend();
