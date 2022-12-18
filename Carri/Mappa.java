@@ -40,9 +40,7 @@ public class Mappa extends JFrame implements MouseListener
                 matrice[1][4]="C";
             }else if(x>1 && x<11){
                 for(int y=2;y<7;y++){
-                    if(Math.random()<0.01){
-                        matrice[x][y]="p";
-                    }else if(Math.random()<0.1){
+                    if(Math.random()<0.1){
                         matrice[x][y]="m";
                     }
                 }
@@ -52,6 +50,7 @@ public class Mappa extends JFrame implements MouseListener
                 matrice[11][6]="N";
             }
         }
+        matrice[4][4]="p";
         for(int y=0;y<9;y++){
             for(int x=0; x<13; x++){
                 System.out.print(matrice[x][y]+" ");
@@ -131,9 +130,23 @@ public class Mappa extends JFrame implements MouseListener
             if((nemici[i].posizioneCarroX+16)/148==x && (nemici[i].posizioneCarroY-10)/120==y){
                 System.out.println("Trovato il carro "+i);
                 nemici[i].vita--;
-            }else{
-                System.out.println("Nessuno carro a "+x+" "+y);
-                System.out.println("carro "+i+" a "+ (nemici[i].posizioneCarroX+16)/148+" "+(nemici[i].posizioneCarroY-10)/120);
+                if(nemici[i].vita==0){
+                    //Esplosione esplo=new Esplosione(esplosione);
+                    esplo.dammiXY(nemici[i].posizioneCarroX+16,nemici[i].posizioneCarroY-10);
+                    try
+                    {
+                        Thread.sleep(1200);
+                    }
+                    catch (InterruptedException ie)
+                    {
+                        ie.printStackTrace();
+                    }
+                    nemici[i].carro1.setVisible(false);
+                    nemici[i].carro2.setVisible(false);
+                    matrice[(nemici[i].posizioneCarroX+16)/148][(nemici[i].posizioneCarroY-10)/120]="-";
+                    nemici[i].vita--;
+                    nemici[i].stop();
+                }
             }
         }
     }
@@ -171,25 +184,25 @@ public class Mappa extends JFrame implements MouseListener
         }else if(e.getButton()==1){
             if(posizioneRelativaX>=0 && posizioneRelativaX<=148){
                 if(posizioneRelativaY<0){
-                    if(/*matrice[xDelCarro][yDelCarro-1]!="B" && */matrice[xDelCarro][yDelCarro-1]!="N"){
+                    //if(/*matrice[xDelCarro][yDelCarro-1]!="B" && */matrice[xDelCarro][yDelCarro-1]!="N"){
                         carro.sparaA("N", carro.carro1, carro.carro2);
-                    }
+                    //}
                 }else if(posizioneRelativaY>148){
-                    if(/*matrice[xDelCarro][yDelCarro+1]!="B" && */matrice[xDelCarro][yDelCarro+1]!="N"){
+                    //if(/*matrice[xDelCarro][yDelCarro+1]!="B" && */matrice[xDelCarro][yDelCarro+1]!="N"){
                         carro.sparaA("S", carro.carro1, carro.carro2);
-                    }
+                    //}
                 }
             }else if(posizioneRelativaX<0){
                 if(posizioneRelativaY>0 && posizioneRelativaY<148){
-                    if(/*matrice[xDelCarro-1][yDelCarro]!="B" && */matrice[xDelCarro-1][yDelCarro]!="N"){
+                    //if(/*matrice[xDelCarro-1][yDelCarro]!="B" && */matrice[xDelCarro-1][yDelCarro]!="N"){
                         carro.sparaA("O", carro.carro1, carro.carro2);
-                    }
+                    //}
                 }
             }else if(posizioneRelativaX>=148){
                 if(posizioneRelativaY>0 && posizioneRelativaY<148){
-                    if(/*matrice[xDelCarro+1][yDelCarro]!="B" && */matrice[xDelCarro+1][yDelCarro]!="N"){
+                    //(/*matrice[xDelCarro+1][yDelCarro]!="B" && */matrice[xDelCarro+1][yDelCarro]!="N"){
                         carro.sparaA("E", carro.carro1, carro.carro2);
-                    }
+                    //}
                 }
             }    
         }

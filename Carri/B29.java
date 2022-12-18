@@ -28,5 +28,22 @@ public class B29 extends Thread
                 bombardamento.start();
             }
         }
+        for(int i=0;i<3;i++){
+            mappa.nemici[i].vita--;
+            Esplosione esplo=new Esplosione(mappa.esplosione);
+            esplo.dammiXY(mappa.nemici[i].posizioneCarroX+16,mappa.nemici[i].posizioneCarroY-10);
+            try
+            {
+                sleep(1200);
+            }
+            catch (InterruptedException ie)
+            {
+                ie.printStackTrace();
+            }
+            if(mappa.nemici[i].vita==0){
+                mappa.nemici[i].carro1.setVisible(false);
+                mappa.nemici[i].carro2.setVisible(false);
+            }
+        }
     }
 }

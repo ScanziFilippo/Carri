@@ -12,7 +12,7 @@ public class CarroArmato extends Thread
     int posizioneCarroY=490;
     int spostamentoX=148;
     int spostamentoY=120;
-    int vita=6;
+    int vita=10;
     JLabel carro1;
     JLabel carro2;
     String direzione="";
@@ -260,25 +260,27 @@ public class CarroArmato extends Thread
                             mappa.nemici[i].muoviCarro("E");
                         }
                     }else{
-                        if((mappa.nemici[i].posizioneCarroY-10)/120<4){
-                            if(mappa.matrice[xDelCarro][yDelCarro+1]!="N" && mappa.matrice[xDelCarro][yDelCarro+1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
-                                mappa.nemici[i].muoviCarro("S");
-                            }
-                        }else if((mappa.nemici[i].posizioneCarroY-10)/120<4){
-                            if(mappa.matrice[xDelCarro][yDelCarro-1]!="N" && mappa.matrice[xDelCarro][yDelCarro-1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
-                                mappa.nemici[i].muoviCarro("N");
+                        if(mappa.nemici[i].bandieraPresa){
+                            if((mappa.nemici[i].posizioneCarroY-10)/120<4){
+                                if(mappa.matrice[xDelCarro][yDelCarro+1]!="N" && mappa.matrice[xDelCarro][yDelCarro+1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                                    mappa.nemici[i].muoviCarro("S");
+                                }
+                            }else if((mappa.nemici[i].posizioneCarroY-10)/120<4){
+                                if(mappa.matrice[xDelCarro][yDelCarro-1]!="N" && mappa.matrice[xDelCarro][yDelCarro-1]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
+                                    mappa.nemici[i].muoviCarro("N");
+                                }
                             }
                         }
                     }
                 }else{
-                    if(ciSonoNemici()=="N"){
-                        mappa.nemici[i].sparaA("S");
-                    }else if(ciSonoNemici()=="E"){
-                        mappa.nemici[i].sparaA("O");
-                    }else if(ciSonoNemici()=="S"){
+                    if(mappa.nemici[i].ciSonoNemici()=="N"){
                         mappa.nemici[i].sparaA("N");
-                    }else if(ciSonoNemici()=="O"){
+                    }else if(mappa.nemici[i].ciSonoNemici()=="E"){
                         mappa.nemici[i].sparaA("E");
+                    }else if(mappa.nemici[i].ciSonoNemici()=="S"){
+                        mappa.nemici[i].sparaA("S");
+                    }else if(mappa.nemici[i].ciSonoNemici()=="O"){
+                        mappa.nemici[i].sparaA("O");
                     }
                     else if((mappa.nemici[i].posizioneCarroX+16)/148!=0){
                         if(mappa.matrice[xDelCarro-1][yDelCarro]!="N" && mappa.matrice[xDelCarro-1][yDelCarro]!="C" || mappa.matrice[xDelCarro][yDelCarro-1]!="mN"){
@@ -298,12 +300,12 @@ public class CarroArmato extends Thread
                 }
                 mappa.nemici[i].resume();
             }
-            /*for(int y=0;y<9;y++){
-            for(int x=0; x<13; x++){
-                System.out.print(mappa.matrice[x][y]+" ");
+            for(int y=0;y<9;y++){
+                for(int x=0; x<13; x++){
+                    System.out.print(mappa.matrice[x][y]+" ");
+                }
+                System.out.println();
             }
-            System.out.println();
-        }*/
             suspend();
             /*try
             {

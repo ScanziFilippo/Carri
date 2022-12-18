@@ -12,7 +12,7 @@ public class Nemici extends Thread
     Mappa mappa;
     JLabel esplosione;
     boolean bandieraPresa=false;
-    int vita=2;
+    int vita=3;
     String direzioneSparo;
     public Nemici(Mappa mappa, int posizioneCarroX,int posizioneCarroY){
         this.mappa=mappa;
@@ -39,9 +39,52 @@ public class Nemici extends Thread
         mappa.carro.vita--;
         System.out.println("Hai "+ mappa.carro.vita+"vite");
         if(mappa.carro.vita==0){
+            Esplosione esplo=new Esplosione(esplosione);
+            esplo.dammiXY(posizioneCarroX+15,posizioneCarroY-10);
+            mappa.carro.carro1.setVisible(false);
+            mappa.carro.carro2.setVisible(false);
             mappa.sconfitta();
         }
         resume();
+    }
+    public String ciSonoNemici(){
+        for(int y=1;y<=3;y++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120-y]=="C"){
+                    return "N";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                y=4;
+            }
+        }
+        for(int x=1;x<=3;x++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+16)/148+x][(posizioneCarroY-10)/120]=="C"){
+                    return "E";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                x=4;
+            }
+        }
+        for(int y=1;y<=3;y++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120+y]=="C"){
+                    return "S";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                y=4;
+            }
+        }
+        for(int x=1;x<=3;x++){
+            try{
+                if(mappa.matrice[(posizioneCarroX+16)/148-x][(posizioneCarroY-10)/120]=="C"){
+                    return "O";
+                }
+            }catch(ArrayIndexOutOfBoundsException exception){
+                x=4;
+            }
+        }
+        return "";
     }
     public void run(){
         suspend();
@@ -51,70 +94,87 @@ public class Nemici extends Thread
             if(vita==0){
                     Esplosione esplo=new Esplosione(esplosione);
                     esplo.dammiXY(posizioneCarroX+16,posizioneCarroY-10);
+                    try
+                    {
+                        sleep(1200);
+                    }
+                    catch (InterruptedException ie)
+                    {
+                        ie.printStackTrace();
+                    }
                     carro1.setVisible(false);
                     carro2.setVisible(false);
+                    mappa.matrice[xDelCarro][yDelCarro]="-";
+                    vita--;
                     stop();
             }
             switch(direzione){
                 case "N":
                     //ruota
-                    
-                    for(int i=0;i<spostamentoY;i++){
-                        posizioneCarroY--;
-                        carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
-                        try
-                        {
-                            sleep(3);
-                        }
-                        catch (InterruptedException ie)
-                        {
-                            ie.printStackTrace();
+                    if(mappa.matrice[xDelCarro][yDelCarro-1]!="C" && mappa.matrice[xDelCarro][yDelCarro-1]!="N"){
+                        for(int i=0;i<spostamentoY;i++){
+                            posizioneCarroY--;
+                            carro1.setLocation(posizioneCarroX, posizioneCarroY);
+                            carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                            try
+                            {
+                                sleep(3);
+                            }
+                            catch (InterruptedException ie)
+                            {
+                                ie.printStackTrace();
+                            }
                         }
                     }
                     break;
                 case "E":
-                    for(int i=0;i<spostamentoX;i++){
-                        posizioneCarroX++;
-                        carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
-                        try
-                        {
-                            sleep(3);
-                        }
-                        catch (InterruptedException ie)
-                        {
-                            ie.printStackTrace();
+                    if(mappa.matrice[xDelCarro+1][yDelCarro]!="C" && mappa.matrice[xDelCarro+1][yDelCarro]!="N"){
+                        for(int i=0;i<spostamentoX;i++){
+                            posizioneCarroX++;
+                            carro1.setLocation(posizioneCarroX, posizioneCarroY);
+                            carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                            try
+                            {
+                                sleep(3);
+                            }
+                            catch (InterruptedException ie)
+                            {
+                                ie.printStackTrace();
+                            }
                         }
                     }
                     break;
                 case "S":
-                    for(int i=0;i<spostamentoY;i++){
-                        posizioneCarroY++;
-                        carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
-                        try
-                        {
-                            sleep(3);
-                        }
-                        catch (InterruptedException ie)
-                        {
-                            ie.printStackTrace();
+                    if(mappa.matrice[xDelCarro][yDelCarro+1]!="C" && mappa.matrice[xDelCarro][yDelCarro+1]!="N"){
+                        for(int i=0;i<spostamentoY;i++){
+                            posizioneCarroY++;
+                            carro1.setLocation(posizioneCarroX, posizioneCarroY);
+                            carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                            try
+                            {
+                                sleep(3);
+                            }
+                            catch (InterruptedException ie)
+                            {
+                                ie.printStackTrace();
+                            }
                         }
                     }
                     break;
                 case "O":
-                    for(int i=0;i<spostamentoX;i++){
-                        posizioneCarroX--;
-                        carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
-                        try
-                        {
-                            sleep(3);
-                        }
-                        catch (InterruptedException ie)
-                        {
-                            ie.printStackTrace();
+                    if(mappa.matrice[xDelCarro-1][yDelCarro]!="C" && mappa.matrice[xDelCarro-1][yDelCarro]!="N"){
+                        for(int i=0;i<spostamentoX;i++){
+                            posizioneCarroX--;
+                            carro1.setLocation(posizioneCarroX, posizioneCarroY);
+                            carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                            try
+                            {
+                                sleep(3);
+                            }
+                            catch (InterruptedException ie)
+                            {
+                                ie.printStackTrace();
+                            }
                         }
                     }
                     break;
@@ -136,6 +196,7 @@ public class Nemici extends Thread
                 if(vita==0){
                     carro1.setVisible(false);
                     carro2.setVisible(false);
+                    mappa.matrice[xDelCarro][yDelCarro]="-";
                     stop();
                 }
             }else if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]=="B"){

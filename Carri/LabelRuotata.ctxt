@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=LabelRuotata
+comment1.params=icona
+comment1.target=LabelRuotata(javax.swing.JLabel)
+comment2.params=
+comment2.target=void\ RotazioneMeno90()
+comment3.params=
+comment3.target=void\ RotazionePi\u00F990()
+comment4.params=
+comment4.target=void\ Rotazione180()
+numComments=5
