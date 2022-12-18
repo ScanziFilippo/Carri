@@ -14,10 +14,11 @@ public class Nemici extends Thread
     boolean bandieraPresa=false;
     int vita=3;
     String direzioneSparo;
+    String puntando="O";
     public Nemici(Mappa mappa, int posizioneCarroX,int posizioneCarroY){
         this.mappa=mappa;
         carro1=new JLabel(new ImageIcon("Nemico1.png"));
-        carro2=new JLabel(new ImageIcon("Nemico2.png"));
+        carro2=new RotateLabel(new ImageIcon("Nemico2.png"),mappa);
         mappa.add(carro2);
         carro2.setSize(350, 100);
         carro2.setLocation(posizioneCarroX-100, posizioneCarroY);
@@ -47,6 +48,25 @@ public class Nemici extends Thread
         }
         resume();
     }
+    public void punta0() {
+              mappa.angolo=-1.57;
+              carro2.repaint();
+       }
+       
+       public void punta90() {
+              mappa.angolo=0;
+              carro2.repaint();
+       }
+       
+       public void punta180() {
+              mappa.angolo=1.57;
+              carro2.repaint();
+       }
+       
+       public void punta270() {
+              mappa.angolo=3.13;
+              carro2.repaint();
+       }
     public String ciSonoNemici(){
         for(int y=1;y<=3;y++){
             try{

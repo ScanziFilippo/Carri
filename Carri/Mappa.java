@@ -22,6 +22,7 @@ public class Mappa extends JFrame implements MouseListener
     JLabel vittoria;
     JLabel perso;
     Nemici[] nemici;
+    public double angolo=0;
     public Mappa()
     {
         //Mouse
@@ -215,4 +216,5 @@ public class Mappa extends JFrame implements MouseListener
     }  
     public void mouseReleased(MouseEvent e) {  
     }
+
 }

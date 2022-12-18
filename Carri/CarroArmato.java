@@ -22,12 +22,13 @@ public class CarroArmato extends Thread
     JLabel esplosione;
     JLabel[] bombe;
     String direzioneSparo="";
+    String puntando="E";
     public CarroArmato(Mappa mappa){
         carro1=new JLabel(new ImageIcon("Carro1.png"));
-        carro2=new JLabel(new ImageIcon("Carro2.png"));
+        carro2=new RotateLabel(new ImageIcon("Carro2.png"),mappa);
         mappa.add(carro2);
-        carro2.setSize(350, 100);
-        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+        carro2.setSize(1000, 1000);
+        carro2.setLocation(posizioneCarroX-410, posizioneCarroY-452);
         mappa.add(carro1);
         carro1.setSize(181, 100);
         carro1.setLocation(posizioneCarroX, posizioneCarroY);
@@ -53,11 +54,32 @@ public class CarroArmato extends Thread
     public void aggiungiSteBombe(JLabel[] bombe){
         this.bombe=bombe;
     }
+    public void punta0() {
+          mappa.angolo=-1.57;
+          carro2.repaint();
+   }
+   
+   public void punta90() {
+          mappa.angolo=0;
+          carro2.repaint();
+   }
+   
+   public void punta180() {
+          mappa.angolo=1.57;
+          carro2.repaint();
+   }
+   
+   public void punta270() {
+          mappa.angolo=3.13;
+          carro2.repaint();
+   }
     public void sparaA(String direzioneSparo, JLabel carroDaMuovereGraficamente1, JLabel carroDaMuovereGraficamente2){
         this.direzioneSparo=direzioneSparo;
+        System.out.println("puntando "+puntando);
         System.out.println("Sparo a "+ direzioneSparo);
         switch(direzioneSparo){
             case "N":
+                punta0();
                 for(int y=1;y<=3;y++){
                     try{
                         if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120-y]=="N"){
@@ -68,8 +90,10 @@ public class CarroArmato extends Thread
                         y=4;
                     }
                 }
+                puntando="N";
                 break;
             case "E":
+                punta90();
                 for(int x=1;x<=3;x++){
                     try{
                         if(mappa.matrice[(posizioneCarroX+15)/148+x][(posizioneCarroY-10)/120]=="N"){
@@ -80,8 +104,10 @@ public class CarroArmato extends Thread
                         x=4;
                     }
                 }
+                puntando="E";
                 break;
             case "S":
+                punta180();
                 for(int y=1;y<=3;y++){
                     try{
                         if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120+y]=="N"){
@@ -92,8 +118,10 @@ public class CarroArmato extends Thread
                         y=4;
                     }
                 }
+                puntando="S";
                 break;
             case "O":
+                punta270();
                 for(int x=1;x<=3;x++){
                     try{
                         if(mappa.matrice[(posizioneCarroX+15)/148-x][(posizioneCarroY-10)/120]=="N"){
@@ -103,11 +131,13 @@ public class CarroArmato extends Thread
                     }catch(ArrayIndexOutOfBoundsException exception){
                         x=4;
                     }
+                }
+                puntando="O";
                 break;
             }
+            System.out.println("puntando "+puntando);
+            resume();
         }
-        resume();
-    }
     public String ciSonoNemici(){
         for(int y=1;y<=3;y++){
             try{
@@ -160,7 +190,7 @@ public class CarroArmato extends Thread
                     for(int i=0;i<spostamentoY;i++){
                         posizioneCarroY--;
                         carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                        carro2.setLocation(posizioneCarroX-410, posizioneCarroY-452);
                         try
                         {
                             sleep(3);
@@ -176,7 +206,7 @@ public class CarroArmato extends Thread
                     for(int i=0;i<spostamentoX;i++){
                         posizioneCarroX++;
                         carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                        carro2.setLocation(posizioneCarroX-410, posizioneCarroY-452);
                         try
                         {
                             sleep(3);
@@ -192,7 +222,7 @@ public class CarroArmato extends Thread
                     for(int i=0;i<spostamentoY;i++){
                         posizioneCarroY++;
                         carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                        carro2.setLocation(posizioneCarroX-410, posizioneCarroY-452);
                         try
                         {
                             sleep(3);
@@ -208,7 +238,7 @@ public class CarroArmato extends Thread
                     for(int i=0;i<spostamentoX;i++){
                         posizioneCarroX--;
                         carro1.setLocation(posizioneCarroX, posizioneCarroY);
-                        carro2.setLocation(posizioneCarroX-100, posizioneCarroY-3);
+                        carro2.setLocation(posizioneCarroX-410, posizioneCarroY-452);
                         try
                         {
                             sleep(3);

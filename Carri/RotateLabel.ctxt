@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=RotateLabel
+comment1.params=x\ mappa
+comment1.target=RotateLabel(javax.swing.Icon,\ Mappa)
+comment2.params=g
+comment2.target=void\ paintComponent(java.awt.Graphics)
+numComments=3
