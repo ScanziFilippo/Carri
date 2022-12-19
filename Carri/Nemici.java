@@ -222,11 +222,16 @@ public class Nemici extends Thread
                     posizioneCarroX=-1000;
                     posizioneCarroY=-1000;
                     mappa.matrice[xDelCarro][yDelCarro]="-";
+                    if(bandieraPresa){
+                        mappa.bandiera1.setVisible(true);
+                        mappa.matrice[0][4]="B";
+                    }
                     stop();
                 }
             }else if(mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]=="B"){
                 bandieraPresa=true;
                 mappa.bandiera1.setVisible(false);
+                
             }else if(bandieraPresa && mappa.matrice[(posizioneCarroX+16)/148][(posizioneCarroY-10)/120]=="BN"){
                 mappa.sconfitta();
             }

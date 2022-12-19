@@ -153,6 +153,7 @@ public class Mappa extends JFrame implements MouseListener
                     nemici[i].carro2.setVisible(false);
                     if(nemici[i].bandieraPresa){
                         bandiera1.setVisible(true);
+                        matrice[0][4]="B";
                     }else{
                         matrice[(nemici[i].posizioneCarroX+16)/148][(nemici[i].posizioneCarroY-10)/120]="-";
                     }
