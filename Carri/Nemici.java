@@ -18,7 +18,7 @@ public class Nemici extends Thread
     public Nemici(Mappa mappa, int posizioneCarroX,int posizioneCarroY){
         this.mappa=mappa;
         carro1=new JLabel(new ImageIcon("Nemico1.png"));
-        carro2=new RotateLabel(new ImageIcon("Nemico2.png"),mappa);
+        carro2=new JLabel(new ImageIcon("Nemico2.png"));
         mappa.add(carro2);
         carro2.setSize(350, 100);
         carro2.setLocation(posizioneCarroX-100, posizioneCarroY);
@@ -38,6 +38,7 @@ public class Nemici extends Thread
         this.direzioneSparo=direzioneSparo;
         System.out.println("Nemico spara a "+ direzioneSparo);
         mappa.carro.vita--;
+        mappa.vitaGrafica.setText("VITA: "+mappa.carro.vita);
         System.out.println("Hai "+ mappa.carro.vita+"vite");
         if(mappa.carro.vita==0){
             Esplosione esplo=new Esplosione(esplosione);
@@ -125,6 +126,8 @@ public class Nemici extends Thread
                     carro1.setVisible(false);
                     carro2.setVisible(false);
                     mappa.matrice[xDelCarro][yDelCarro]="-";
+                    posizioneCarroX=0;
+                    posizioneCarroY=10;
                     vita--;
                     stop();
             }
@@ -216,6 +219,8 @@ public class Nemici extends Thread
                 if(vita==0){
                     carro1.setVisible(false);
                     carro2.setVisible(false);
+                    posizioneCarroX=-1000;
+                    posizioneCarroY=-1000;
                     mappa.matrice[xDelCarro][yDelCarro]="-";
                     stop();
                 }

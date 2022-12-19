@@ -23,6 +23,7 @@ public class Mappa extends JFrame implements MouseListener
     JLabel perso;
     Nemici[] nemici;
     public double angolo=0;
+    JLabel vitaGrafica;
     public Mappa()
     {
         //Mouse
@@ -64,6 +65,11 @@ public class Mappa extends JFrame implements MouseListener
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
         setUndecorated(true);
         setVisible(true);
+        vitaGrafica=new JLabel();
+        add(vitaGrafica);
+        vitaGrafica.setSize(1000,200);
+        vitaGrafica.setLocation(30, -50);
+        vitaGrafica.setFont(new Font("Verdana", Font.PLAIN, 64));
         vittoria = new JLabel("VITTORIA!");
         add(vittoria);
         perso = new JLabel("HAI PERSO!");
@@ -106,6 +112,7 @@ public class Mappa extends JFrame implements MouseListener
         carro.aggiungiStoB29(b29);
         carro.aggiungiSteBombe(bombe);
         carro.aggiungiStaEsplosione(esplosione);
+        vitaGrafica.setText("VITA: "+carro.vita);
     }
     public void aggiungiScacchiera(){
         JLabel scacchiera=new JLabel(new ImageIcon("scacchiera.png"));
@@ -144,7 +151,13 @@ public class Mappa extends JFrame implements MouseListener
                     }
                     nemici[i].carro1.setVisible(false);
                     nemici[i].carro2.setVisible(false);
-                    matrice[(nemici[i].posizioneCarroX+16)/148][(nemici[i].posizioneCarroY-10)/120]="-";
+                    if(nemici[i].bandieraPresa){
+                        bandiera1.setVisible(true);
+                    }else{
+                        matrice[(nemici[i].posizioneCarroX+16)/148][(nemici[i].posizioneCarroY-10)/120]="-";
+                    }
+                    nemici[i].posizioneCarroX=0;
+                    nemici[i].posizioneCarroY=10;
                     nemici[i].vita--;
                     nemici[i].stop();
                 }

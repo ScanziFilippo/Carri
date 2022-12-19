@@ -259,6 +259,7 @@ public class CarroArmato extends Thread
                 Esplosione esplo=new Esplosione(esplosione);
                 esplo.dammiXY(posizioneCarroX+15,posizioneCarroY-10);
                 vita--;
+                mappa.vitaGrafica.setText("VITA: "+vita);
                 try
                 {
                     sleep(1200);
