@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Proiettile
+comment1.params=proiettile
+comment1.target=Proiettile(RotateLabel)
+comment2.params=x\ y\ direzioneSparo\ caselle
+comment2.target=void\ dammiXY(int,\ int,\ java.lang.String,\ int)
+comment3.params=
+comment3.target=void\ run()
+numComments=4

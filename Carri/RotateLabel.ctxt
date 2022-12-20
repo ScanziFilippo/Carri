@@ -2,6 +2,10 @@
 comment0.target=RotateLabel
 comment1.params=x\ mappa
 comment1.target=RotateLabel(javax.swing.Icon,\ Mappa)
-comment2.params=g
-comment2.target=void\ paintComponent(java.awt.Graphics)
-numComments=3
+comment2.params=angolo
+comment2.target=void\ dammiAngolo(double)
+comment3.params=x\ y
+comment3.target=void\ dammiCoordinate(int,\ int)
+comment4.params=g
+comment4.target=void\ paintComponent(java.awt.Graphics)
+numComments=5

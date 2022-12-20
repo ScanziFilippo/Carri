@@ -14,7 +14,7 @@ public class CarroArmato extends Thread
     int spostamentoY=120;
     int vita=10;
     JLabel carro1;
-    JLabel carro2;
+    RotateLabel carro2;
     String direzione="";
     Mappa mappa;
     boolean bandieraPresa=false;
@@ -29,6 +29,7 @@ public class CarroArmato extends Thread
         mappa.add(carro2);
         carro2.setSize(1000, 1000);
         carro2.setLocation(posizioneCarroX-410, posizioneCarroY-452);
+        carro2.dammiCoordinate(500,500);
         mappa.add(carro1);
         carro1.setSize(181, 100);
         carro1.setLocation(posizioneCarroX, posizioneCarroY);
@@ -55,33 +56,36 @@ public class CarroArmato extends Thread
         this.bombe=bombe;
     }
     public void punta0() {
-          mappa.angolo=-1.57;
+          carro2.dammiAngolo(-1.57);
           carro2.repaint();
    }
    
    public void punta90() {
-          mappa.angolo=0;
+          carro2.dammiAngolo(0);
           carro2.repaint();
    }
    
    public void punta180() {
-          mappa.angolo=1.57;
+          carro2.dammiAngolo(1.57);
           carro2.repaint();
    }
    
    public void punta270() {
-          mappa.angolo=3.13;
+          carro2.dammiAngolo(3.13);
           carro2.repaint();
    }
     public void sparaA(String direzioneSparo, JLabel carroDaMuovereGraficamente1, JLabel carroDaMuovereGraficamente2){
         this.direzioneSparo=direzioneSparo;
         System.out.println("puntando "+puntando);
         System.out.println("Sparo a "+ direzioneSparo);
+        Proiettile proiettile=new Proiettile(mappa.proiettile);
+        int caselle=0;
         switch(direzioneSparo){
             case "N":
                 punta0();
                 for(int y=1;y<=3;y++){
                     try{
+                        caselle=y-1;
                         if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120-y]=="N"){
                             mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120-y);
                             break;
@@ -90,12 +94,16 @@ public class CarroArmato extends Thread
                         y=4;
                     }
                 }
+                if(caselle!=0){
+                    proiettile.dammiXY(posizioneCarroX,posizioneCarroY,direzioneSparo, caselle);
+                }
                 puntando="N";
                 break;
             case "E":
                 punta90();
                 for(int x=1;x<=3;x++){
                     try{
+                        caselle=x-1;
                         if(mappa.matrice[(posizioneCarroX+15)/148+x][(posizioneCarroY-10)/120]=="N"){
                             mappa.trovaCarro((posizioneCarroX+15)/148+x, (posizioneCarroY-10)/120);
                             break;
@@ -104,12 +112,16 @@ public class CarroArmato extends Thread
                         x=4;
                     }
                 }
+                if(caselle!=0){
+                    proiettile.dammiXY(posizioneCarroX,posizioneCarroY,direzioneSparo, caselle);
+                }
                 puntando="E";
                 break;
             case "S":
                 punta180();
                 for(int y=1;y<=3;y++){
                     try{
+                        caselle=y-1;
                         if(mappa.matrice[(posizioneCarroX+15)/148][(posizioneCarroY-10)/120+y]=="N"){
                         mappa.trovaCarro((posizioneCarroX+15)/148, (posizioneCarroY-10)/120+y);
                         break;
@@ -118,12 +130,16 @@ public class CarroArmato extends Thread
                         y=4;
                     }
                 }
+                if(caselle!=0){
+                    proiettile.dammiXY(posizioneCarroX,posizioneCarroY,direzioneSparo, caselle);
+                }
                 puntando="S";
                 break;
             case "O":
                 punta270();
                 for(int x=1;x<=3;x++){
                     try{
+                        caselle=x-1;
                         if(mappa.matrice[(posizioneCarroX+15)/148-x][(posizioneCarroY-10)/120]=="N"){
                             mappa.trovaCarro((posizioneCarroX+15)/148-x, (posizioneCarroY-10)/120);
                             break;
@@ -131,6 +147,9 @@ public class CarroArmato extends Thread
                     }catch(ArrayIndexOutOfBoundsException exception){
                         x=4;
                     }
+                }
+                if(caselle!=0){
+                    proiettile.dammiXY(posizioneCarroX,posizioneCarroY,direzioneSparo, caselle);
                 }
                 puntando="O";
                 break;

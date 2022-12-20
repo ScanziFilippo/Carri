@@ -24,6 +24,7 @@ public class Mappa extends JFrame implements MouseListener
     Nemici[] nemici;
     public double angolo=0;
     JLabel vitaGrafica;
+    RotateLabel proiettile;
     public Mappa()
     {
         //Mouse
@@ -79,6 +80,10 @@ public class Mappa extends JFrame implements MouseListener
         b29.setSize(650,911);
         b29.setLocation(-800,85);
         bombe=new JLabel[10];
+        proiettile=new RotateLabel(new ImageIcon("proiettile.png"),this);
+        add(proiettile);
+        proiettile.setSize(100,100);
+        proiettile.setVisible(false);
         for(int i=0;i<10;i++){
             bombe[i]=new JLabel(new ImageIcon("esplosione.gif"));
             add(bombe[i]);
